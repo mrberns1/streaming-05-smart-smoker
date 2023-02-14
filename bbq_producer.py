@@ -78,7 +78,7 @@ for row in reader:
    sock.sendto(MESSAGE, address_tuple)
 
    # sleep for a few seconds
-   time.sleep(3)
+   time.sleep(1)
 try:
     # create a blocking connection to the RabbitMQ server
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
