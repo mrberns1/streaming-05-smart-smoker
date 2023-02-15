@@ -63,13 +63,13 @@ for row in reader:
    
    # row names as headers, renamed Time(UTC) as Time_UTC_ due to issues
    # with name and coding.
-   Time_UTC_, Channel1 = row
+   Time_UTC_, Channel1, Channel2, Channel3 = row
 
 
    # make sure the f is outside of the quotations, made three separate
    # rows, one for each consume because they all need the time for
    # each channel. 
-   fstring_message = f"{Time_UTC_}, {Channel1}"
+   fstring_message = f"{Time_UTC_}, {Channel1}, {Channel2}, {Channel3}"
 
    # this MESSAGE is case sensitive
    MESSAGE = fstring_message.encode()
@@ -80,48 +80,6 @@ for row in reader:
    # sleep for a few seconds
    time.sleep(30)
 
-for row in reader:
-   
-   # row names as headers, renamed Time(UTC) as Time_UTC_ due to issues
-   # with name and coding.
-   Time_UTC_, Channel2 = row
-
-
-   # make sure the f is outside of the quotations, made three separate
-   # rows, one for each consume because they all need the time for
-   # each channel. 
-   fstring_message = f"{Time_UTC_}, {Channel2}"
-
-   # this MESSAGE is case sensitive
-   MESSAGE = fstring_message.encode()
-   
-   # using the socket method to send message
-   sock.sendto(MESSAGE, address_tuple)
-
-   # sleep for a few seconds
-   time.sleep(30)
-
-for row in reader:
-   
-   # row names as headers, renamed Time(UTC) as Time_UTC_ due to issues
-   # with name and coding.
-   Time_UTC_, Channel3 = row
-
-
-   # make sure the f is outside of the quotations, made three separate
-   # rows, one for each consume because they all need the time for
-   # each channel. 
-   fstring_message = f"{Time_UTC_}, {Channel3}"
-
-   # this MESSAGE is case sensitive
-   MESSAGE = fstring_message.encode()
-   
-   # using the socket method to send message
-   sock.sendto(MESSAGE, address_tuple)
-
-   # sleep for a few seconds
-   time.sleep(30)
-   
 try:
     # create a blocking connection to the RabbitMQ server
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
