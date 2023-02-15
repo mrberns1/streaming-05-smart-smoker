@@ -86,4 +86,4 @@ The biggest issue I had with this coding situation was building all three channe
 You would need to change the name of the queue to what you want for each section to have your own data built in. I do not have the listening workers built at this time and this is just the emitter. 
 
 Producer screenshot below:
-[terminal] (terminal_emitter_running.JPG)
+[terminal](terminal_emitter_running.JPG)
