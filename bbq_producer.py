@@ -96,7 +96,7 @@ except ValueError:
 try:
     Channel1 = round(float(Channel1),1)
     # use an fstring to create a message from our data
-    # notice the f before the opening quote for our string?
+    # f before the opening quote 
     smoker_temps = f"[{Time_UTC_}, {Channel1}]"
     # prepare a binary (1s and 0s) message to stream
     MESSAGE = smoker_temps.encode()
@@ -111,7 +111,7 @@ except ValueError:
 try:
     Channel2 = round(float(Channel2),1)
     # use an fstring to create a message from our data
-    # notice the f before the opening quote for our string?
+    # f before the opening quote 
     Food_A = f"[{Time_UTC_}, {Channel2}]"
     # prepare a binary (1s and 0s) message to stream
     MESSAGE2 = Food_A.encode()
@@ -126,7 +126,7 @@ except ValueError:
 try:
     Channel3 = round(float(Channel3),1)
     # use an fstring to create a message from our data
-    # notice the f before the opening quote for our string?
+    # f before the opening quote
     Food_B = f"[{Time_UTC_}, {Channel3}]"
     # prepare a binary (1s and 0s) message to stream
     MESSAGE3 = Food_B.encode()

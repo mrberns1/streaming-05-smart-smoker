@@ -81,3 +81,9 @@ More Guidance
     Use the discussion forum when you get stuck.
     Try to help without giving away code. 
 
+My notes:
+The biggest issue I had with this coding situation was building all three channels. It would not let me run it without having something after the first try with creating the channels. I used the same 'except' as the other trys. It ran this way but I am wondering why it did this because other code I have seen doesn't need it. 
+You would need to change the name of the queue to what you want for each section to have your own data built in. I do not have the listening workers built at this time and this is just the emitter. 
+
+Producer screenshot below:
+[terminal] (terminal_emitter_running.JPG)
