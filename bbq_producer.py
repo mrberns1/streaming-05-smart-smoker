@@ -80,6 +80,7 @@ for row in reader:
    # sleep for a few seconds
    time.sleep(30)
 
+
 try:
     # create a blocking connection to the RabbitMQ server
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
@@ -89,7 +90,9 @@ try:
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
     ch.queue_declare(queue=Channel3, durable=True)
-        
+except ValueError:
+     pass
+    
 try:
     Channel1 = round(float(Channel1),1)
     # use an fstring to create a message from our data
@@ -135,9 +138,11 @@ try:
 except ValueError:
         pass
 
+
 except pika.exceptions.AMQPConnectionError as e:
         print(f"Error: Connection to RabbitMQ server failed: {e}")
         sys.exit(1)
+
 finally:
         # close the connection to the server
         conn.close()
