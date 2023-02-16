@@ -78,7 +78,7 @@ for row in reader:
    sock.sendto(MESSAGE, address_tuple)
 
    # sleep for a few seconds
-   time.sleep(30)
+   time.sleep(1)
 
 
 try:
