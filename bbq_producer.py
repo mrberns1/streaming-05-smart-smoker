@@ -85,9 +85,6 @@ try:
 except pika.exceptions.AMQPConnectionError as e:
         print(f"Error: Connection to RabbitMQ server failed: {e}")
         sys.exit(1)
-finally:
-        # close the connection to the server
-        conn.close()
 
 try:
     Channel1 = round(float(Channel1),1)
@@ -133,10 +130,11 @@ try:
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
         pass
-
+finally:
+        # close the connection to the server
+        conn.close()
 # Sleep for 30 seconds
 time.sleep(30)
-
 
 # Standard Python idiom to indicate main program entry point
 # This allows us to import this module and use its functions
