@@ -78,10 +78,6 @@ try:
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
     # use the connection to create a communication channel
     ch = conn.channel()
-    #Deleting the three existing queues
-    ch.queue_delete(Channel1)
-    ch.queue_delete(Channel2)
-    ch.queue_delete(Channel3)
     #the three queues we will use for the producing.
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
