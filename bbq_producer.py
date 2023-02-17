@@ -18,12 +18,6 @@ import csv
 import socket
 import time
 
-host= "localhost"
-Channel1 = 'smoker_temps'
-Channel2 = 'Food_A'
-Channel3 = 'Food_B'
-input_file = 'smoker-temps.csv'
-show_offer = True
 
 def offer_rabbitmq_admin_site():
     """Offer to open the RabbitMQ Admin website"""
@@ -34,7 +28,7 @@ def offer_rabbitmq_admin_site():
             webbrowser.open_new("http://localhost:15672/#/queues")
             print()
 
-def send_message(host: str, message: str):
+def send_message(host: str , Channel1: str, Channel2: str, Channel3: str, message: str):
     """
     Creates and sends a message to the queue each execution.
     This process runs and finishes.
@@ -78,13 +72,17 @@ try:
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
     # use the connection to create a communication channel
     ch = conn.channel()
+    #Deleting the three existing queues
+    ch.queue_delete(Channel1)
+    ch.queue_delete(Channel2)
+    ch.queue_delete(Channel3)
     #the three queues we will use for the producing.
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
     ch.queue_declare(queue=Channel3, durable=True)
 except ValueError:
-        pass
-
+     pass
+    
 try:
     Channel1 = round(float(Channel1),1)
     # use an fstring to create a message from our data
@@ -94,7 +92,7 @@ try:
     MESSAGE = smoker_temps.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE, address_tuple)
-    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE)
+    ch.basic_publish(exchange="", routing_key= Channel1, body=MESSAGE)
     # print a message to the console for the user
     print(f" [x] Sent Smoker Temp {MESSAGE}")
 except ValueError:
@@ -109,7 +107,7 @@ try:
     MESSAGE2 = Food_A.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE2, address_tuple)
-    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE2)
+    ch.basic_publish(exchange="", routing_key=Channel2, body=MESSAGE2)
     # print a message to the console for the user
     print(f" [x] Sent Food A Temp {MESSAGE2}")
 except ValueError:
@@ -124,7 +122,7 @@ try:
     MESSAGE3 = Food_B.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE3, address_tuple)
-    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE3)
+    ch.basic_publish(exchange="", routing_key=Channel3, body=MESSAGE3)
     # print a message to the console for the user
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
@@ -135,7 +133,6 @@ except pika.exceptions.AMQPConnectionError as e:
 finally:
         # close the connection to the server
         conn.close()
-# Sleep for 30 seconds
 time.sleep(30)
 
 # Standard Python idiom to indicate main program entry point
