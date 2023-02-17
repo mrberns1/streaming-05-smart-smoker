@@ -82,7 +82,8 @@ try:
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
     ch.queue_declare(queue=Channel3, durable=True)
-
+except ValueError:
+        pass
 
 try:
     Channel1 = round(float(Channel1),1)
