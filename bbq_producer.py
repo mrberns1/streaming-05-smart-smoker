@@ -34,7 +34,7 @@ def offer_rabbitmq_admin_site():
             webbrowser.open_new("http://localhost:15672/#/queues")
             print()
 
-def send_message(host: str , Channel1: str, Channel2: str, Channel3: str, message: str):
+def send_message(host: str, message: str):
     """
     Creates and sends a message to the queue each execution.
     This process runs and finishes.
