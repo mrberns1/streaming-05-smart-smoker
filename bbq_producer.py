@@ -82,9 +82,7 @@ try:
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
     ch.queue_declare(queue=Channel3, durable=True)
-except pika.exceptions.AMQPConnectionError as e:
-        print(f"Error: Connection to RabbitMQ server failed: {e}")
-        sys.exit(1)
+
 
 try:
     Channel1 = round(float(Channel1),1)
@@ -130,6 +128,9 @@ try:
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
         pass
+except pika.exceptions.AMQPConnectionError as e:
+        print(f"Error: Connection to RabbitMQ server failed: {e}")
+        sys.exit(1)
 finally:
         # close the connection to the server
         conn.close()
