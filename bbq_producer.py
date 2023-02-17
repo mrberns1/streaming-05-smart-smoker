@@ -18,10 +18,16 @@ import csv
 import socket
 import time
 
+host= "localhost"
+Channel1 = 'smoker_temps'
+Channel2 = 'Food_A'
+Channel3 = 'Food_B'
+input_file = 'smoker-temps.csv'
+show_offer = True
 
 def offer_rabbitmq_admin_site():
     """Offer to open the RabbitMQ Admin website"""
-    if show_offer == True:
+    if show_offer == "True":
         ans = input("Would you like to monitor RabbitMQ queues? y or n ")
         print()
         if ans.lower() == "y":
@@ -66,9 +72,6 @@ for row in reader:
    # with name and coding.
    Time_UTC_, Channel1, Channel2, Channel3 = row
 
-   # sleep for 30 seconds
-   time.sleep(30)
-
 
 try:
     # create a blocking connection to the RabbitMQ server
@@ -83,9 +86,13 @@ try:
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
     ch.queue_declare(queue=Channel3, durable=True)
-except ValueError:
-     pass
-    
+except pika.exceptions.AMQPConnectionError as e:
+        print(f"Error: Connection to RabbitMQ server failed: {e}")
+        sys.exit(1)
+finally:
+        # close the connection to the server
+        conn.close()
+
 try:
     Channel1 = round(float(Channel1),1)
     # use an fstring to create a message from our data
@@ -95,7 +102,7 @@ try:
     MESSAGE = smoker_temps.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE, address_tuple)
-    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE)
+    ch.basic_publish(exchange="", routing_key= Channel1, body=MESSAGE)
     # print a message to the console for the user
     print(f" [x] Sent Smoker Temp {MESSAGE}")
 except ValueError:
@@ -131,14 +138,9 @@ try:
 except ValueError:
         pass
 
+# Sleep for 30 seconds
+time.sleep(30)
 
-except pika.exceptions.AMQPConnectionError as e:
-        print(f"Error: Connection to RabbitMQ server failed: {e}")
-        sys.exit(1)
-
-finally:
-        # close the connection to the server
-        conn.close()
 
 # Standard Python idiom to indicate main program entry point
 # This allows us to import this module and use its functions
