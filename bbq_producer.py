@@ -95,7 +95,7 @@ try:
     MESSAGE = smoker_temps.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE, address_tuple)
-    ch.basic_publish(exchange="", routing_key= Channel1, body=MESSAGE)
+    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE)
     # print a message to the console for the user
     print(f" [x] Sent Smoker Temp {MESSAGE}")
 except ValueError:
@@ -110,7 +110,7 @@ try:
     MESSAGE2 = Food_A.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE2, address_tuple)
-    ch.basic_publish(exchange="", routing_key=Channel2, body=MESSAGE2)
+    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE2)
     # print a message to the console for the user
     print(f" [x] Sent Food A Temp {MESSAGE2}")
 except ValueError:
@@ -125,7 +125,7 @@ try:
     MESSAGE3 = Food_B.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE3, address_tuple)
-    ch.basic_publish(exchange="", routing_key=Channel3, body=MESSAGE3)
+    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE3)
     # print a message to the console for the user
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
