@@ -28,7 +28,7 @@ def offer_rabbitmq_admin_site():
             webbrowser.open_new("http://localhost:15672/#/queues")
             print()
 
-def send_message(host: str , Channel1: str, Channel2: str, Channel3: str, message: str):
+def send_message(host: str, Channel1: str, Channel2: str, Channel3: str, message: str):
     """
     Creates and sends a message to the queue each execution.
     This process runs and finishes.
@@ -124,7 +124,6 @@ try:
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
         pass
-
 
 except pika.exceptions.AMQPConnectionError as e:
         print(f"Error: Connection to RabbitMQ server failed: {e}")
