@@ -67,11 +67,16 @@ for row in reader:
    Time_UTC_, Channel1, Channel2, Channel3 = row
 
 
+
 try:
     # create a blocking connection to the RabbitMQ server
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
     # use the connection to create a communication channel
     ch = conn.channel()
+    #Deleting the three existing queues
+    ch.queue_delete(Channel1)
+    ch.queue_delete(Channel2)
+    ch.queue_delete(Channel3)
     #the three queues we will use for the producing.
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
@@ -88,7 +93,7 @@ try:
     MESSAGE = smoker_temps.encode()
     # use the socket sendto() method to send the message
     sock.sendto(MESSAGE, address_tuple)
-    ch.basic_publish(exchange="", routing_key= Channel1, body=MESSAGE)
+    ch.basic_publish(exchange="", routing_key= str, body=MESSAGE)
     # print a message to the console for the user
     print(f" [x] Sent Smoker Temp {MESSAGE}")
 except ValueError:
@@ -123,12 +128,17 @@ try:
     print(f" [x] Sent Food B Temp {MESSAGE3}")
 except ValueError:
         pass
+
+
 except pika.exceptions.AMQPConnectionError as e:
         print(f"Error: Connection to RabbitMQ server failed: {e}")
         sys.exit(1)
+
 finally:
         # close the connection to the server
         conn.close()
+
+# sleep for 30 seconds
 time.sleep(30)
 
 # Standard Python idiom to indicate main program entry point
