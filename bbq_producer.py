@@ -21,13 +21,14 @@ import time
 
 def offer_rabbitmq_admin_site():
     """Offer to open the RabbitMQ Admin website"""
-    ans = input("Would you like to monitor RabbitMQ queues? y or n ")
-    print()
-    if ans.lower() == "y":
-        webbrowser.open_new("http://localhost:15672/#/queues")
+    if show_offer == True:
+        ans = input("Would you like to monitor RabbitMQ queues? y or n ")
         print()
+        if ans.lower() == "y":
+            webbrowser.open_new("http://localhost:15672/#/queues")
+            print()
 
-def send_message(host: str , queue_name: str , message: str):
+def send_message(host: str , Channel1: str, Channel2: str, Channel3: str, message: str):
     """
     Creates and sends a message to the queue each execution.
     This process runs and finishes.
@@ -65,19 +66,7 @@ for row in reader:
    # with name and coding.
    Time_UTC_, Channel1, Channel2, Channel3 = row
 
-
-   # make sure the f is outside of the quotations, made three separate
-   # rows, one for each consumer because they all need the time for
-   # each channel. 
-   fstring_message = f"{Time_UTC_}, {Channel1}, {Channel2}, {Channel3}"
-
-   # this MESSAGE is case sensitive
-   MESSAGE = fstring_message.encode()
-   
-   # using the socket method to send message
-   sock.sendto(MESSAGE, address_tuple)
-
-   # sleep for a few seconds
+   # sleep for 30 seconds
    time.sleep(30)
 
 
@@ -86,6 +75,10 @@ try:
     conn = pika.BlockingConnection(pika.ConnectionParameters(host))
     # use the connection to create a communication channel
     ch = conn.channel()
+    #Deleting the three existing queues
+    ch.queue_delete(Channel1)
+    ch.queue_delete(Channel2)
+    ch.queue_delete(Channel3)
     #the three queues we will use for the producing.
     ch.queue_declare(queue=Channel1, durable=True)
     ch.queue_declare(queue=Channel2, durable=True)
@@ -159,6 +152,6 @@ if __name__ == "__main__":
     # if no arguments are provided, use the default message
     # use the join method to convert the list of arguments into a string
     # join by the space character inside the quotes
-    message = " ".join(sys.argv[1:]) or "{message}"
+    message = " ".join(sys.argv[1:]) or "{MESSAGE}"
     # send the message to the queue
     send_message ("localhost", "01-smoker_temps", "02-Food_A", "03-Food_B", message)
