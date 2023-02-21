@@ -76,24 +76,24 @@ offer_rabbitmq_admin_site(True)
 """Create CSV function to read from file and turn it into a message"""
 # opens and reads smoker file
 with open("smoker-temps.csv", 'r') as file:
-     reader=csv.reader(file, delimiter=",")
+    reader=csv.reader(file, delimiter=",")
 #read in rows
-for row in reader:
+    for row in reader:
      #read just the timestamp and store it
-     fstringtime=f"{row[0]}"
+        fstringtime=f"{row[0]}"
      # read smoker temps and store it
-     smokertemp=f"{row[1]}"
+        smokertemp=f"{row[1]}"
      # read food A and store it
-     foodA=f"{row[2]}"
+        foodA=f"{row[2]}"
      # read food B and store it
-     foodB=f"{row[3]}"
+        foodB=f"{row[3]}"
 # set up messages
-smoker_message=f"{fstringtime},{smokertemp}"
-foodA_message=f"{fstringtime},{foodA}"
-foodB_message=f"{fstringtime},{foodB}"
+        smoker_message=f"{fstringtime},{smokertemp}"
+        foodA_message=f"{fstringtime},{foodA}"
+        foodB_message=f"{fstringtime},{foodB}"
 # get the messages to the consumers
-send_message(host,"01-smoker",smoker_message)
-send_message(host,"02-food-A",foodA_message)
-send_message(host,"03-food-B",foodB_message)
+        send_message(host,"01-smoker",smoker_message)
+        send_message(host,"02-food-A",foodA_message)
+        send_message(host,"03-food-B",foodB_message)
 # one message every 30 seconds with sleep time
-time.sleep(30)
+        time.sleep(30)
