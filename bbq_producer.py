@@ -27,31 +27,28 @@ def offer_rabbitmq_admin_site(show_offer):
             print()
 
 def send_message(host: str, queue_name: str, message: str):
-    """
-    Creates and sends a message to the queue each execution.
-    This process runs and finishes.
-
-    Parameters:
+    """Creates and sends a message to the queue each execution.
+        This process runs and finishes.
+        Parameters:
         host (str): the host name or IP address of the RabbitMQ server
         queue_name (str): the name of the queue, one for each channel
-        message (str): the message to be sent to the queue
-    """
-try:
+        message (str): the message to be sent to the queue"""
+    try:
     # create a blocking connection to the RabbitMQ server
-    conn = pika.BlockingConnection(pika.ConnectionParameters(host))
+        conn = pika.BlockingConnection(pika.ConnectionParameters(host))
     # use the connection to create a communication channel
-    ch = conn.channel()
+        ch = conn.channel()
     #the three queues we will use for the producing.
-    ch.queue_declare(queue=queue_name, durable=True)
+        ch.queue_declare(queue=queue_name, durable=True)
     # Use the channel to publish a message to the queue
     # every message passes through an exchange
-    ch.basic_publish(exchange="", routing_key=queue_name, body= message)
+        ch.basic_publish(exchange="",routing_key=queue_name,body= message)
     # print a message to the console for the user
-    print(f" [x] Sent {message}")
-except pika.exceptions.AMQPConnectionError as e:
+        print(f" [x] Sent {message}")
+    except pika.exceptions.AMQPConnectionError as e:
      print(f"Error: Connection to RabbitMQ server failed: {e}")
      sys.exit(1)
-finally:
+    finally:
      # close connection to the server
      conn.close()
 # Declare a host name
